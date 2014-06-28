@@ -1,0 +1,14 @@
+Riverside County School Sites
+    http://data.countyofriverside.opendata.arcgis.com/datasets/4dde89e625bd43e7a8afe8cb8bf9b3a8_0.geojson
+
+PUBLIC SITES
+    http://data.countyofriverside.opendata.arcgis.com/datasets/14b84cbcaaef4d319c5892bfcb1efab4_0.geojson
+
+Goals:
+    Interface with multiple geojson datasets
+    Display Google Map to user
+    Overlay geojson data on Google Map
+
+Optional Goals:
+    User registration
+    Event log summary sent to admin email on event garbage collection
