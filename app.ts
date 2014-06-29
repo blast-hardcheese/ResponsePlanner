@@ -28,7 +28,7 @@ module ResponsePlanner {
     }
 
     interface APIHandler {
-        load(opts: APIHandlerOptions, callback: (points: Feature[]) => void);
+        load(opts: APIHandlerOptions, callback: (points: Feature[]) => void): void;
     }
 
     class AbstractAPIHandler {
@@ -56,7 +56,7 @@ module ResponsePlanner {
         serviceName: string = null;
         serviceIndex: number = null;
 
-        constructor(serviceName: string, serviceIndex) {
+        constructor(serviceName: string, serviceIndex: number) {
             super();
             this.serviceName = serviceName;
             this.serviceIndex = serviceIndex;
