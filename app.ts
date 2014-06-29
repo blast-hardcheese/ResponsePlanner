@@ -28,13 +28,15 @@ module ResponsePlanner {
             ($.get(url)
              .done((data: string) => {
                 var json: POI[] = JSON.parse(data);
-                callback(json);
+                callback(this.transform(json));
              })
              .fail(() => {
 
              })
             );
         }
+
+        transform = (x: any): GeoJSON.Feature[] => { return []; }
     }
 
     class ArcGisAPIHandler extends AbstractAPIHandler {
@@ -64,8 +66,31 @@ module ResponsePlanner {
 
             return url + "?" + qs;
         }
+    }
 
+    interface GeoJSONHandlerResponse {
+        name: string;
+        type: string;
+        updated_at: number;
+        features: GeoJSON.Feature[];
+    }
 
+    class GeoJSONHandler extends AbstractAPIHandler {
+        private base = "http://data.countyofriverside.opendata.arcgis.com/datasets/";
+        dataset: string = null;
+
+        constructor(dataset: string) {
+            super();
+            this.dataset = dataset;
+        }
+
+        buildQuery = (lat: number, lng: number) => {
+            return this.base + this.dataset;
+        }
+
+        transform = (resp: GeoJSONHandlerResponse): GeoJSON.Feature[] => {
+            return resp.features;
+        }
     }
 
     class Map {
