@@ -19,13 +19,31 @@ module ResponsePlanner {
         load(opts: APIHandlerOptions, callback: (points: POI[]) => void);
     }
 
-    class ArcGisAPIHandler implements APIHandler {
+    class AbstractAPIHandler {
+        buildQuery = (lat: number, lng: number): string => { return ""; }
 
+        load = (opts: APIHandlerOptions, callback: (points: POI[]) => void) => {
+            var url = this.buildQuery(opts.lat, opts.lng);
+            console.log(url);
+            ($.get(url)
+             .done((data: string) => {
+                var json: POI[] = JSON.parse(data);
+                callback(json);
+             })
+             .fail(() => {
+
+             })
+            );
+        }
+    }
+
+    class ArcGisAPIHandler extends AbstractAPIHandler {
         private base = "http://gis.rctlma.org/arcgis/rest/services/Public";
         serviceName: string = null;
         serviceIndex: number = null;
 
         constructor(serviceName: string, serviceIndex) {
+            super();
             this.serviceName = serviceName;
             this.serviceIndex = serviceIndex;
         }
@@ -47,21 +65,8 @@ module ResponsePlanner {
             return url + "?" + qs;
         }
 
-        load = (opts: APIHandlerOptions, callback: (points: POI[]) => void) => {
-            var url = this.buildQuery(opts.lat, opts.lng);
-            console.log(url);
-            ($.get(url)
-             .done((data: string) => {
-                var json: POI[] = JSON.parse(data);
-                callback(json);
-             })
-             .fail(() => {
 
-             })
-            );
-        }
     }
-
 
     class Map {
         components = {
