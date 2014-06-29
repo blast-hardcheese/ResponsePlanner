@@ -240,9 +240,9 @@ module ResponsePlanner {
                         var marker = new google.maps.Marker({
                                 position: latLng,
                                 map: this.map,
-                                title: point.properties.SITE_NAME,
+                                title: point.properties[handler.keys.name],
                                 id: point.id,
-                                icon: ["data:image/png;base64", this.extra.thumbForKey(point.properties.SITE_TYPE)].join(","),
+                                icon: ["data:image/png;base64", this.extra.thumbForKey(point.properties[handler.keys.type])].join(","),
                         });
                     });
                 });
