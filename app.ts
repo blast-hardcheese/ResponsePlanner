@@ -8,8 +8,12 @@ module ResponsePlanner {
     interface FeatureProperties {
         OBJECTID: number;
 
+        TYPE: string;
         SITE_TYPE: string;
+
+        NAME: string;
         SITE_NAME: string;
+
         PHONE: string;
 
         ADDRESS: string;
