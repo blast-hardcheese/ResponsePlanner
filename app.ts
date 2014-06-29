@@ -105,7 +105,14 @@ module ResponsePlanner {
         }
     }
 
-    class Map {
+    class ExtraMapData {
+        private map: google.maps.Map;
+        private markers: google.maps.Marker[] = [];
+
+        constructor(map: google.maps.Map) {
+            this.map = map;
+        }
+
         components = {
             allLabels: (on: boolean) => {
                 return {
@@ -131,6 +138,7 @@ module ResponsePlanner {
     export class App {
         map: google.maps.Map = null;
         private apiHandlers: APIHandler[] = [];
+        private extra: ExtraMapData = null;
 
         constructor() {
         }
@@ -142,6 +150,7 @@ module ResponsePlanner {
             };
 
             this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            this.extra = new ExtraMapData(this.map);
 
             this.bindEvents();
             this.location_init();
