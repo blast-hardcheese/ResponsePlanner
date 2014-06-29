@@ -2,6 +2,7 @@
 ///<reference path="definitions/googlemaps/google.maps.d.ts" />
 ///<reference path="definitions/toastr/toastr.d.ts" />
 ///<reference path="definitions/geojson/geojson.d.ts" />
+///<reference path="thumbnails.ts" />
 
 module ResponsePlanner {
     interface FeatureProperties {
@@ -132,6 +133,15 @@ module ResponsePlanner {
                 }
             },
         };
+
+        thumbForKey = (key: string): string => {
+            var thumb: Thumb = ResponsePlanner.Thumbnails.thumbs[key];
+            if(thumb === undefined) {
+                console.error("Unable to find key:", key);
+                thumb = ResponsePlanner.Thumbnails.thumbs["INFORMATION TECHNOLOGY"];
+            }
+            return thumb.imageData;
+        }
     }
 
 
