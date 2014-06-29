@@ -1,14 +1,62 @@
+///<reference path="definitions/jquery/jquery.d.ts" />
 ///<reference path="definitions/googlemaps/google.maps.d.ts" />
+///<reference path="definitions/toastr/toastr.d.ts" />
 
-var map;
-function initialize() {
-  var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(-34.397, 150.644),
-  };
+module ResponsePlanner {
+    class APIHandler {
 
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+    }
+
+
+    export class App {
+        map: google.maps.Map = null;
+        private api: APIHandler = null;
+
+        constructor() {
+        }
+
+        start = () => {
+            var mapOptions = {
+                zoom: 3,
+                center: new google.maps.LatLng(0, 0),
+            };
+
+            this.api = new APIHandler();
+
+            this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            this.location_init();
+        }
+
+        location_init = () => {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position: Position) => {
+                    console.debug("position:", position);
+                    var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                    this.map.setCenter(pos);
+                    this.map.setZoom(17);
+
+                    toastr.info("Found you! " + position.coords.accuracy);
+                }, function() {
+                    this.location_unavailable(true);
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                this.location_unavailable(false);
+            }
+        }
+
+        location_unavailable = (supported: boolean) => {
+            if(supported) {
+                toastr.error("Unable to get GPS signal");
+            } else {
+                toastr.error("No supported GPS found");
+            }
+        }
+    }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', () => {
+    var app = new ResponsePlanner.App();
+    app.start();
+});
