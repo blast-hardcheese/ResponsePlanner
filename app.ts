@@ -22,8 +22,8 @@ module ResponsePlanner {
     }
 
     interface APIHandlerOptions {
-        lat: number;
-        lng: number;
+        lat?: number;
+        lng?: number;
 
         tag?: string;
     }
