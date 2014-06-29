@@ -122,7 +122,7 @@ module ResponsePlanner {
         init = () => {
             var mapOptions = {
                 zoom: 3,
-                center: new google.maps.LatLng(0, 0),
+                center: new google.maps.LatLng(39, -101),
             };
 
             this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
