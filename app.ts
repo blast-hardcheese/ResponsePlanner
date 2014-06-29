@@ -15,7 +15,7 @@ module ResponsePlanner {
         constructor() {
         }
 
-        start = () => {
+        init = () => {
             var mapOptions = {
                 zoom: 3,
                 center: new google.maps.LatLng(0, 0),
@@ -58,5 +58,5 @@ module ResponsePlanner {
 
 google.maps.event.addDomListener(window, 'load', () => {
     var app = new ResponsePlanner.App();
-    app.start();
+    app.init();
 });
