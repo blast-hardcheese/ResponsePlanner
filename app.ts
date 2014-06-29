@@ -182,8 +182,12 @@ module ResponsePlanner {
 
         init = () => {
             var mapOptions = {
-                zoom: 3,
-                center: new google.maps.LatLng(39, -101),
+                zoom: 10,
+                center: new google.maps.LatLng(33.72205524868729, -116.88491821289062),
+                mapTypeControlOptions: {
+                    mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, "MY_ONLYROADLABELS"],
+                },
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
             };
 
             this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -192,6 +196,8 @@ module ResponsePlanner {
             this.bindEvents();
             this.location_init();
             this.createHandlers();
+
+            this.map.mapTypes.set("MY_ONLYROADLABELS", this.extra.types.onlyRoads);
         }
 
         createHandlers = () => {
