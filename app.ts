@@ -204,9 +204,9 @@ module ResponsePlanner {
         }
     }
 
-
     export class App {
         map: google.maps.Map = null;
+        private infoWindow: google.maps.InfoWindow = new google.maps.InfoWindow({});
         private apiHandlers: APIHandler[] = [];
         private extra: ExtraMapData = null;
 
@@ -260,6 +260,40 @@ module ResponsePlanner {
                                 title: point.properties[handler.keys.name],
                                 id: point.id,
                                 icon: icon,
+                        });
+
+                        google.maps.event.addListener(marker, 'click', () => {
+                            var content = [
+                                "<table>",
+                                    "<tbody>",
+                                        "<tr>",
+                                            "<th>Name</th>",
+                                            "<td>", point.properties[handler.keys.name], "</td>",
+                                        "</tr>",
+                                        "<tr>",
+                                            "<th>Address</th>",
+                                            "<td>", point.properties[handler.keys.address], "</td>",
+                                        "</tr>",
+                                        "<tr>",
+                                            "<th>City</th>",
+                                            "<td>", point.properties[handler.keys.city], "</td>",
+                                        "</tr>",
+                                        "<tr>",
+                                            "<th>Zip</th>",
+                                            "<td>", point.properties[handler.keys.zip], "</td>",
+                                        "</tr>",
+
+                                        "<tr>",
+                                            "<th>Phone</th>",
+                                            "<td><a href=\"tel:", point.properties[handler.keys.phone], "\">", point.properties[handler.keys.phone], "</a></td>",
+                                        "</tr>",
+                                        "</tr>",
+                                    "</tbody>",
+                                "</table>",
+                            ].join("");
+
+                            this.infoWindow.setContent(content);
+                            this.infoWindow.open(this.map, marker);
                         });
 
                         this.extra.markers.push(marker);
