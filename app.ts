@@ -135,6 +135,12 @@ module ResponsePlanner {
         };
 
         thumbForKey = (key: string): string => {
+            var corrections = {
+                "FIRE STATION": "FIRE & EMERGENCY SERVICES",
+            };
+
+            var key: string = (corrections[key] || key);
+
             var thumb: Thumb = ResponsePlanner.Thumbnails.thumbs[key];
             if(thumb === undefined) {
                 console.error("Unable to find key:", key);
