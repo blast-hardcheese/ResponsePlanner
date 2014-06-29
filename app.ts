@@ -4,8 +4,19 @@
 ///<reference path="definitions/geojson/geojson.d.ts" />
 
 module ResponsePlanner {
-    interface APIHandler {
+    interface POI {
 
+    }
+
+    interface APIHandlerOptions {
+        lat: number;
+        lng: number;
+
+        tag?: string;
+    }
+
+    interface APIHandler {
+        load(opts: APIHandlerOptions, callback: (points: POI[]) => void);
     }
 
     class ArcGisAPIHandler implements APIHandler {
@@ -34,6 +45,20 @@ module ResponsePlanner {
             }).join("&");
 
             return url + "?" + qs;
+        }
+
+        load = (opts: APIHandlerOptions, callback: (points: POI[]) => void) => {
+            var url = this.buildQuery(opts.lat, opts.lng);
+            console.log(url);
+            ($.get(url)
+             .done((data: string) => {
+                var json: POI[] = JSON.parse(data);
+                callback(json);
+             })
+             .fail(() => {
+
+             })
+            );
         }
     }
 
