@@ -4,6 +4,22 @@
 ///<reference path="definitions/geojson/geojson.d.ts" />
 
 module ResponsePlanner {
+    interface FeatureProperties {
+        OBJECTID: number;
+
+        SITE_TYPE: string;
+        SITE_NAME: string;
+        PHONE: string;
+
+        ADDRESS: string;
+        CITY: string;
+        ZIPCODE: number;
+    }
+
+    interface Feature extends GeoJSON.Feature {
+        properties: FeatureProperties;
+    }
+
     interface APIHandlerOptions {
         lat: number;
         lng: number;
@@ -12,18 +28,18 @@ module ResponsePlanner {
     }
 
     interface APIHandler {
-        load(opts: APIHandlerOptions, callback: (points: GeoJSON.Feature[]) => void);
+        load(opts: APIHandlerOptions, callback: (points: Feature[]) => void);
     }
 
     class AbstractAPIHandler {
         buildQuery = (lat: number, lng: number): string => { return ""; }
 
-        load = (opts: APIHandlerOptions, callback: (points: GeoJSON.Feature[]) => void) => {
+        load = (opts: APIHandlerOptions, callback: (points: Feature[]) => void) => {
             var url = this.buildQuery(opts.lat, opts.lng);
             console.log(url);
             ($.get(url)
              .done((data: string) => {
-                var json: GeoJSON.Feature[] = JSON.parse(data);
+                var json: Feature[] = JSON.parse(data);
                 callback(this.transform(json));
              })
              .fail(() => {
@@ -32,7 +48,7 @@ module ResponsePlanner {
             );
         }
 
-        transform = (x: any): GeoJSON.Feature[] => { return []; }
+        transform = (x: any): Feature[] => { return []; }
     }
 
     class ArcGisAPIHandler extends AbstractAPIHandler {
@@ -68,7 +84,7 @@ module ResponsePlanner {
         name: string;
         type: string;
         updated_at: number;
-        features: GeoJSON.Feature[];
+        features: Feature[];
     }
 
     class GeoJSONHandler extends AbstractAPIHandler {
@@ -84,7 +100,7 @@ module ResponsePlanner {
             return this.base + this.dataset;
         }
 
-        transform = (resp: GeoJSONHandlerResponse): GeoJSON.Feature[] => {
+        transform = (resp: GeoJSONHandlerResponse): Feature[] => {
             return resp.features;
         }
     }
