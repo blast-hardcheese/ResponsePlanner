@@ -35,6 +35,10 @@ module ResponsePlanner {
     interface APIHandlerProperties {
         type: string;
         name: string;
+        address: string;
+        city: string;
+        zip: string;
+        phone: string;
     }
 
     interface APIHandler {
@@ -50,6 +54,10 @@ module ResponsePlanner {
         keys = {
             type: 'TYPE',
             name: 'NAME',
+            address: 'ADDRESS',
+            city: 'CITY',
+            zip: 'ZIPCODE',
+            phone: 'PHONE',
         }
 
         constructor(options: AbstractAPIHandlerOptions) {
