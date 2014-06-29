@@ -227,7 +227,8 @@ module ResponsePlanner {
         }
 
         createHandlers = () => {
-            this.apiHandlers.push(new GeoJSONHandler("14b84cbcaaef4d319c5892bfcb1efab4_0.geojson"));
+            this.apiHandlers.push(new GeoJSONHandler("14b84cbcaaef4d319c5892bfcb1efab4_0.geojson", {"name": "SITE_NAME", "type": "SITE_TYPE"}));
+            this.apiHandlers.push(new GeoJSONHandler("4dde89e625bd43e7a8afe8cb8bf9b3a8_0.geojson"));
             //this.apiHandlers.push(new ArcGisAPIHandler("FeatureServer")); // Disabled, since geojson seems easier to implement
         }
 
