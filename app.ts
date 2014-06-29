@@ -62,6 +62,30 @@ module ResponsePlanner {
         }
     }
 
+
+    class Map {
+        components = {
+            allLabels: (on: boolean) => {
+                return {
+                    "elementType": "labels",
+                    "stylers": [
+                        { "visibility": (on?"on":"off") }
+                    ]
+                }
+            },
+            roadLabels: (on: boolean) => {
+                return {
+                    "featureType": "road",
+                    "elementType": "labels",
+                    "stylers": [
+                        { "visibility": (on?"on":"off") }
+                    ]
+                }
+            },
+        };
+    }
+
+
     export class App {
         map: google.maps.Map = null;
         private api: APIHandler = null;
