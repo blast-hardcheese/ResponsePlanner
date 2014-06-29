@@ -132,6 +132,27 @@ module ResponsePlanner {
                     ]
                 }
             },
+
+            simpleGeometry: (on: boolean) => {
+                return {
+                    "elementType": "geometry",
+                    "stylers": [
+                        { "visibility": "simplified" }
+                    ]
+                }
+            },
+        };
+
+        types = {
+            onlyRoads: new google.maps.StyledMapType([
+                    this.components.allLabels(false),
+                    this.components.roadLabels(true),
+                ], {"name": "Only Road Labels"}),
+
+            allLabels: new google.maps.StyledMapType([
+                    this.components.allLabels(true),
+                    this.components.roadLabels(true),
+                ], {"name": "All Labels"}),
         };
 
         thumbForKey = (key: string): string => {
