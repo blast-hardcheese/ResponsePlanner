@@ -18,6 +18,23 @@ module ResponsePlanner {
             this.serviceName = serviceName;
             this.serviceIndex = serviceIndex;
         }
+
+        buildQuery = (lat: number, lng: number): string => {
+            var params = [
+                ["outFields", "*"],
+                ["where", "1=1"],
+                ["f", "pjson"],
+                ["geometryType", "esriGeometryEnvelope"],
+                ["geometry", "-104,35.6,-94.32,41"],
+            ];
+
+            var url = [this.base, this.serviceName, "FeatureServer", this.serviceIndex].join("/");
+            var qs = params.map((pair) => {
+                return [pair[0], encodeURIComponent(pair[1])].join("=");
+            }).join("&");
+
+            return url + "?" + qs;
+        }
     }
 
     export class App {
