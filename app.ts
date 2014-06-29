@@ -196,6 +196,7 @@ module ResponsePlanner {
             this.bindEvents();
             this.location_init();
             this.createHandlers();
+            this.loadIcons();
 
             this.map.mapTypes.set("MY_ONLYROADLABELS", this.extra.types.onlyRoads);
         }
@@ -203,6 +204,28 @@ module ResponsePlanner {
         createHandlers = () => {
             this.apiHandlers.push(new GeoJSONHandler("14b84cbcaaef4d319c5892bfcb1efab4_0.geojson"));
             //this.apiHandlers.push(new ArcGisAPIHandler("FeatureServer")); // Disabled, since geojson seems easier to implement
+        }
+
+        loadIcons = () => {
+            this.apiHandlers.map((handler: APIHandler) => {
+                console.debug("Firing off:", handler);
+                handler.load({}, (points: Feature[]) => {
+                    console.debug("points:", points);
+
+                    points.map((point) => {
+                        var coords = point.geometry.coordinates;
+                        var latLng = new google.maps.LatLng(coords[1], coords[0]);
+
+                        var marker = new google.maps.Marker({
+                                position: latLng,
+                                map: this.map,
+                                title: point.properties.SITE_NAME,
+                                id: point.id,
+                                icon: ["data:image/png;base64", this.extra.thumbForKey(point.properties.SITE_TYPE)].join(","),
+                        });
+                    });
+                });
+            });
         }
 
         bindEvents = () => {
