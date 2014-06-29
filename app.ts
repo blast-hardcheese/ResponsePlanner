@@ -133,7 +133,7 @@ module ResponsePlanner {
 
     class ExtraMapData {
         private map: google.maps.Map;
-        private markers: google.maps.Marker[] = [];
+        markers: google.maps.Marker[] = [];
 
         constructor(map: google.maps.Map) {
             this.map = map;
@@ -253,6 +253,8 @@ module ResponsePlanner {
                                 id: point.id,
                                 icon: icon,
                         });
+
+                        this.extra.markers.push(marker);
                     });
                 });
             });
