@@ -126,6 +126,8 @@ module ResponsePlanner {
             };
 
             this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            this.bindEvents();
             this.location_init();
             this.createHandlers();
         }
@@ -133,6 +135,23 @@ module ResponsePlanner {
         createHandlers = () => {
             this.apiHandlers.push(new GeoJSONHandler("14b84cbcaaef4d319c5892bfcb1efab4_0.geojson"));
             //this.apiHandlers.push(new ArcGisAPIHandler("FeatureServer")); // Disabled, since geojson seems easier to implement
+        }
+
+        bindEvents = () => {
+            google.maps.event.addListener(this.map, 'center_changed', () => {
+            });
+
+            google.maps.event.addListener(this.map, 'click', (event: google.maps.MouseEvent) => {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+
+                this.apiHandlers.map((handler: APIHandler) => {
+                    console.debug("Firing off:", handler);
+                    handler.load({ lat: lat, lng: lng }, (points) => {
+                        console.debug("points:", points);
+                    })
+                });
+            });
         }
 
         location_init = () => {
