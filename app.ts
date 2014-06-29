@@ -241,13 +241,17 @@ module ResponsePlanner {
                     points.map((point) => {
                         var coords = point.geometry.coordinates;
                         var latLng = new google.maps.LatLng(coords[1], coords[0]);
+                        var icon: google.maps.Icon = {
+                            url: ["data:image/png;base64", this.extra.thumbForKey(point.properties[handler.keys.type])].join(","),
+                            scaledSize: new google.maps.Size(20, 20),
+                        };
 
                         var marker = new google.maps.Marker({
                                 position: latLng,
                                 map: this.map,
                                 title: point.properties[handler.keys.name],
                                 id: point.id,
-                                icon: ["data:image/png;base64", this.extra.thumbForKey(point.properties[handler.keys.type])].join(","),
+                                icon: icon,
                         });
                     });
                 });
