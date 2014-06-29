@@ -4,10 +4,6 @@
 ///<reference path="definitions/geojson/geojson.d.ts" />
 
 module ResponsePlanner {
-    interface POI {
-
-    }
-
     interface APIHandlerOptions {
         lat: number;
         lng: number;
@@ -16,18 +12,18 @@ module ResponsePlanner {
     }
 
     interface APIHandler {
-        load(opts: APIHandlerOptions, callback: (points: POI[]) => void);
+        load(opts: APIHandlerOptions, callback: (points: GeoJSON.Feature[]) => void);
     }
 
     class AbstractAPIHandler {
         buildQuery = (lat: number, lng: number): string => { return ""; }
 
-        load = (opts: APIHandlerOptions, callback: (points: POI[]) => void) => {
+        load = (opts: APIHandlerOptions, callback: (points: GeoJSON.Feature[]) => void) => {
             var url = this.buildQuery(opts.lat, opts.lng);
             console.log(url);
             ($.get(url)
              .done((data: string) => {
-                var json: POI[] = JSON.parse(data);
+                var json: GeoJSON.Feature[] = JSON.parse(data);
                 callback(this.transform(json));
              })
              .fail(() => {
