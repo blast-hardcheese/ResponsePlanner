@@ -93,7 +93,7 @@ module ResponsePlanner {
 
     export class App {
         map: google.maps.Map = null;
-        private api: APIHandler = null;
+        private apiHandlers: APIHandler[] = [];
 
         constructor() {
         }
@@ -104,10 +104,14 @@ module ResponsePlanner {
                 center: new google.maps.LatLng(0, 0),
             };
 
-            this.api = new ArcGisAPIHandler("FeatureServer");
-
             this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
             this.location_init();
+            this.createHandlers();
+        }
+
+        createHandlers = () => {
+            this.apiHandlers.push(new GeoJSONHandler("14b84cbcaaef4d319c5892bfcb1efab4_0.geojson"));
+            //this.apiHandlers.push(new ArcGisAPIHandler("FeatureServer")); // Disabled, since geojson seems easier to implement
         }
 
         location_init = () => {
