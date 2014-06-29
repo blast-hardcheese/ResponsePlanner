@@ -267,13 +267,38 @@ module ResponsePlanner {
             google.maps.event.addListener(this.map, 'click', (event: google.maps.MouseEvent) => {
                 var lat = event.latLng.lat();
                 var lng = event.latLng.lng();
+                console.log(lat, lng, this.map.getZoom());
+            });
 
-                this.apiHandlers.map((handler: APIHandler) => {
-                    console.debug("Firing off:", handler);
-                    handler.load({ lat: lat, lng: lng }, (points) => {
-                        console.debug("points:", points);
-                    })
-                });
+            google.maps.event.addListener(this.map, 'zoom_changed', () => {
+                console.debug("zoom level changed:", this.map.getZoom());
+                this.doScale(this.map.getZoom());
+            })
+        }
+
+        doScale = (level: number) => {
+            var mapping = {
+                12: 30,
+                13: 50,
+                14: 50,
+                15: 50,
+                16: 75,
+                17: 75,
+                18: 75,
+                19: 75,
+                20: 75,
+                21: 75,
+            }
+
+            var value = mapping[level] || 25;
+
+            this.extra.markers.map((marker: google.maps.Marker) => {
+                var icon = marker.getIcon();
+
+                icon.scaledSize.width = value;
+                icon.scaledSize.height = value;
+
+                marker.setIcon(icon);
             });
         }
 
