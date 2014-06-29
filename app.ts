@@ -28,11 +28,32 @@ module ResponsePlanner {
         tag?: string;
     }
 
+    interface APIHandlerProperties {
+        type: string;
+        name: string;
+    }
+
     interface APIHandler {
+        keys: APIHandlerProperties;
         load(opts: APIHandlerOptions, callback: (points: Feature[]) => void): void;
     }
 
-    class AbstractAPIHandler {
+    interface AbstractAPIHandlerOptions {
+        properties?: APIHandlerProperties;
+    }
+
+    class AbstractAPIHandler implements APIHandler {
+        keys = {
+            type: 'TYPE',
+            name: 'NAME',
+        }
+
+        constructor(options: AbstractAPIHandlerOptions) {
+            for(var option in options) {
+                this.keys[option] = options[option];
+            }
+        }
+
         buildQuery = (lat: number, lng: number): string => { return ""; }
 
         load = (opts: APIHandlerOptions, callback: (points: Feature[]) => void) => {
@@ -57,8 +78,8 @@ module ResponsePlanner {
         serviceName: string = null;
         serviceIndex: number = null;
 
-        constructor(serviceName: string, serviceIndex: number) {
-            super();
+        constructor(serviceName: string, serviceIndex: number, options: AbstractAPIHandlerOptions = {}) {
+            super(options);
             this.serviceName = serviceName;
             this.serviceIndex = serviceIndex;
         }
@@ -92,8 +113,8 @@ module ResponsePlanner {
         private base = "http://data.countyofriverside.opendata.arcgis.com/datasets/";
         dataset: string = null;
 
-        constructor(dataset: string) {
-            super();
+        constructor(dataset: string, options: AbstractAPIHandlerOptions = {}) {
+            super(options);
             this.dataset = dataset;
         }
 
