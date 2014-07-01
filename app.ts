@@ -306,16 +306,20 @@ module ResponsePlanner {
             google.maps.event.addListener(this.map, 'center_changed', () => {
             });
 
-            google.maps.event.addListener(this.map, 'click', (event: google.maps.MouseEvent) => {
-                var lat = event.latLng.lat();
-                var lng = event.latLng.lng();
-                console.log(lat, lng, this.map.getZoom());
-            });
-
             google.maps.event.addListener(this.map, 'zoom_changed', () => {
                 console.debug("zoom level changed:", this.map.getZoom());
                 this.doScale(this.map.getZoom());
             })
+
+            $(".findme").click(() => {
+                if(this.latlng != undefined) {
+                    console.log("findme");
+                    var pos = new google.maps.LatLng(this.latlng.latitude, this.latlng.longitude);
+
+                    this.map.setCenter(pos);
+                    this.map.setZoom(15);
+                }
+            });
         }
 
         doScale = (level: number) => {

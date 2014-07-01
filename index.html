@@ -12,6 +12,17 @@
         margin: 0px;
         padding: 0px
       }
+
+      .findme {
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+        width: 4em;
+        height: 4em;
+        background-color: blue;
+        z-index: 1000;
+        border-radius: 2em;
+      }
     </style>
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
@@ -23,6 +34,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" media="all" type="text/css" />
   </head>
   <body>
-    <div id="map-canvas"></div>
+      <div class="findme"></div>
+      <div id="map-canvas"></div>
   </body>
 </html>
