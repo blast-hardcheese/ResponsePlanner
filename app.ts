@@ -354,9 +354,7 @@ module ResponsePlanner {
                     console.debug("position:", position);
                     var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-                    this.map.setCenter(pos);
-                    this.map.setZoom(17);
-
+                    this.latlng = position.coords;
                     toastr.info("Found you! " + position.coords.accuracy);
                 }, function() {
                     this.location_unavailable(true);
